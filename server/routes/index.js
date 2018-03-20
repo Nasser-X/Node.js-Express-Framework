@@ -3,7 +3,17 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  req.knex
+  .from ('user')
+  .first()
+  .then(function(result){
+    console.log(result)
+    if(!result || !result.iduser){
+      return(null)
+    }
+    res.render('index', { title: result.username });
+  })
+  .catch(next)
 });
 
 /* GET home page. */

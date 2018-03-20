@@ -7,8 +7,13 @@ var knex = require('knex')({
         database: 'db',
         charset: 'utf8_general_ci',
         user: 'root',
-        password: '@dmin'
+        password: 'admin'
     }
 });
 
-module.exports = app;
+module.exports = function(req,res,next){
+    req.knex = knex
+    next()
+}
+
+module.exports.knex = knex

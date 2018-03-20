@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var i18n = require('i18n-2');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -22,7 +23,15 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(require);
+app.use(require('./middlewares/database'));
+i18n.expressBind(app, {
+  locales: ['en', 'ar'],
+  directory: __dirname + 'locales',
+  defaultLocale: 'ar',
+  session: false,
+  indent: " "
+})
+
 
 app.use('/', index);
 app.use('/users', users);
